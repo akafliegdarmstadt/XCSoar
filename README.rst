@@ -1,5 +1,25 @@
-XCSoar
-======
+XCSoar D-KMCH
+=============
+**This is a version adapted to our special needs. Use with caution.
+Our adaptions are described in the following.**
+
+Adaptions
+---------
+We forked XCSoar to add an NMEA-Sentence that describes fuel usage.
+We use this for our Touring Motor Glider in an attempt to optimise
+fuel efficiency.
+
+The flow-meter we use counts "ticks" that are proportional to fuel use,
+the NMEA-Sentence transmits the last registered tick-rate in ticks per second.
+We intend to convert the tick-rate into the fuel rate in XCSoar, so there will
+be a conversion factor that has to be input.
+
+The NMEA-Sentence looks like the following:
+``$PFLO,xxx.x*??`` where xxx.x is the flow-rate in ticks per second.
+
+Original README
+---------------
+
 .. image:: https://circleci.com/gh/XCSoar/XCSoar.svg?style=svg
     :target: https://circleci.com/gh/XCSoar/XCSoar
 
