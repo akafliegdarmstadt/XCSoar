@@ -21,10 +21,10 @@ Copyright_License {
 }
 */
 
-#ifndef XCSOAR_DEVICE_DRIVER_OPENVARIO_HPP
-#define XCSOAR_DEVICE_DRIVER_OPENVARIO_HPP
+#ifndef XCSOAR_DEVICE_DRIVER_DKMCH_HPP
+#define XCSOAR_DEVICE_DRIVER_DKMCH_HPP
 
-extern const struct DeviceRegister dkmch_register;
+extern const struct DeviceRegister dkmch_driver;
 
 #endif
 
