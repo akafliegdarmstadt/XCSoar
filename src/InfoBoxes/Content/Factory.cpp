@@ -42,6 +42,7 @@ Copyright_License {
 #include "InfoBoxes/Content/Weather.hpp"
 #include "InfoBoxes/Content/Airspace.hpp"
 #include "InfoBoxes/Content/Radio.hpp"
+#include "InfoBoxes/Content/FuelFlow.hpp"
 
 #include "util/Macros.hpp"
 #include "Language/Language.hpp"
@@ -1091,6 +1092,13 @@ static constexpr MetaData meta_data[] = {
     UpdateInfoBoxThermalTime,
   },
 
+  // Fuel Flow
+  {
+    N_("Fuel Flow"),
+    N_("FuelFlow"),
+    N_("The currently measured fuel flow. If no flow is detected '---'."),
+    UpdateInfoBoxFuelFlow,
+  }
 };
 
 static_assert(ARRAY_SIZE(meta_data) == NUM_TYPES,
