@@ -32,80 +32,17 @@ Copyright_License {
 #include "Operation/Operation.hpp"
 #include "LogFile.hpp"
 
+constexpr int CALIBRATION_FACTOR = 8600;
+
 class DKMCHDevice : public AbstractDevice {
-  Port &port;
+  __attribute__((unused)) Port &port;
 
 public:
   DKMCHDevice(Port &_port):port(_port) {}
 
-  /* virtual methods from class Device */
   bool ParseNMEA(const char *line, NMEAInfo &info) override;
-  bool PutMacCready(double mc, OperationEnvironment &env) override;
-  bool PutBallast(double fraction, double overload,
-                  OperationEnvironment &env) override;
-  bool PutBugs(double bugs, OperationEnvironment &env) override;
-  void OnCalculatedUpdate(const MoreData &basic,
-                  const DerivedInfo &calculated) override;
-  static bool POV(NMEAInputLine &line, NMEAInfo &info);
+  static bool PFLO(NMEAInputLine &line, NMEAInfo &info);
 };
-
-void
-DKMCHDevice::OnCalculatedUpdate(const MoreData &basic, 
-    const DerivedInfo &calculated)
-{
-  PolarCoefficients polar_ideal;
-  PolarCoefficients polar_real;
-  NullOperationEnvironment env;
-  
-  // Get polar
-  polar_ideal = calculated.glide_polar_safety.GetCoefficients();
-  polar_real = calculated.glide_polar_safety.GetRealCoefficients();
-  
-  char buffer[50];
-  
-  // Compose Real Polar String
-  sprintf(buffer,"POV,C,RPO,%f,%f,%f", polar_real.a, polar_real.b, polar_real.c);
-  PortWriteNMEA(port, buffer, env);
-
-  // Compose ideal polar String
-  sprintf(buffer,"POV,C,IPO,%f,%f,%f", polar_ideal.a, polar_ideal.b, polar_ideal.c);
-  PortWriteNMEA(port, buffer, env);
-}
-
-bool
-DKMCHDevice::PutMacCready(double mc, OperationEnvironment &env)
-{
-  if (!EnableNMEA(env))
-    return false;
-  
-  char buffer[30];
-  sprintf(buffer,"POV,C,MC,%0.2f", (double)mc);
-  return PortWriteNMEA(port, buffer, env);
-}
-
-bool
-DKMCHDevice::PutBallast(double fraction, double overload, OperationEnvironment &env)
-{
-  if (!EnableNMEA(env))
-    return false;
-  
-  char buffer[15];
-  sprintf(buffer,"POV,C,WL,%3.0f", overload);
-  return PortWriteNMEA(port, buffer, env);
-}
-
-bool
-DKMCHDevice::PutBugs(double bugs, OperationEnvironment &env)
-{
-  if (!EnableNMEA(env))
-    return false;
- 
-  double _bugs = (double)(bugs);
-
-  char buffer[32];
-  sprintf(buffer, "POV,C,BU,%0.2f\r", _bugs);
-  return PortWriteNMEA(port, buffer, env);
-}
 
 bool
 DKMCHDevice::ParseNMEA(const char *_line, NMEAInfo &info)
@@ -114,78 +51,17 @@ DKMCHDevice::ParseNMEA(const char *_line, NMEAInfo &info)
     return false;
 
   NMEAInputLine line(_line);
-  if (line.ReadCompare("$POV"))
-    return POV(line, info);
+  if (line.ReadCompare("$PFLO"))
+    return PFLO(line, info);
 
   return false;
 }
 
 bool
-DKMCHDevice::POV(NMEAInputLine &line, NMEAInfo &info)
+DKMCHDevice::PFLO(NMEAInputLine &line, NMEAInfo &info)
 {
-  /*
-   * Type definitions:
-   *
-   * E: TE vario in m/s
-   * H: relative humidity in %
-   * P: static pressure in hPa
-   * Q: dynamic pressure in Pa
-   * R: total pressure in hPa
-   * S: true airspeed in km/h
-   * T: temperature in deg C
-   */
-
-  while (!line.IsEmpty()) {
-    char type = line.ReadOneChar();
-    if (type == '\0')
-      break;
-
-    double value;
-    if (!line.ReadChecked(value))
-      break;
-
-    switch (type) {
-      case 'E': {
-        info.ProvideTotalEnergyVario(value);
-        break;
-      }
-      case 'H': {
-          info.humidity_available = true;
-          info.humidity = value;
-          break;
-      }
-      case 'P': {
-        AtmosphericPressure pressure = AtmosphericPressure::HectoPascal(value);
-        info.ProvideStaticPressure(pressure);
-        break;
-      }
-      case 'Q': {
-        AtmosphericPressure pressure = AtmosphericPressure::Pascal(value);
-        info.ProvideDynamicPressure(pressure);
-        break;
-      }
-      case 'R': {
-        AtmosphericPressure pressure = AtmosphericPressure::HectoPascal(value);
-        info.ProvidePitotPressure(pressure);
-        break;
-      }
-      case 'S': {
-        value = Units::ToSysUnit(value, Unit::KILOMETER_PER_HOUR);
-        info.ProvideTrueAirspeed(value);
-        break;
-      }
-      case 'T': {
-        info.temperature = Temperature::FromCelsius(value);
-        info.temperature_available = true;
-        break;
-      }
-      case 'V': {
-        info.voltage = value;
-        info.voltage_available.Update(info.clock);
-        break;
-      }
-    }
-  }
+  info.fuel_flow = 42 * CALIBRATION_FACTOR;
+  info.fuel_flow_available.Update(info.clock);
 
   return true;
 }

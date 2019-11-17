@@ -324,6 +324,9 @@ struct NMEAInfo {
   //   Other
   //###########
 
+  Validity fuel_flow_available;
+  double fuel_flow;
+
   Validity engine_noise_level_available;
   unsigned engine_noise_level;
 
