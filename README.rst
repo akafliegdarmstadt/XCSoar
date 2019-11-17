@@ -17,6 +17,8 @@ be a conversion factor that has to be input.
 The NMEA-Sentence looks like the following:
 ``$PFLO,xxx.x*??`` where xxx.x is the flow-rate in ticks per second.
 
+We determined our calibration factor to be 8600 ticks/liter.
+
 Original README
 ---------------
 
