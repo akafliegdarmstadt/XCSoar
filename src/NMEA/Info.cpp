@@ -182,6 +182,8 @@ NMEAInfo::Reset()
 #ifdef ANDROID
   glink_data.Clear();
 #endif
+
+  fuel_flow_available.Clear();
 }
 
 void
@@ -244,6 +246,7 @@ NMEAInfo::Expire()
   engine_noise_level_available.Expire(clock, std::chrono::seconds(30));
   voltage_available.Expire(clock, std::chrono::minutes(5));
   battery_level_available.Expire(clock, std::chrono::minutes(5));
+  fuel_flow_available.Expire(clock, std::chrono::seconds(5));
   flarm.Expire(clock);
 #ifdef ANDROID
   glink_data.Expire(clock);
@@ -355,6 +358,10 @@ NMEAInfo::Complement(const NMEAInfo &add)
 
   if (!stall_ratio_available && add.stall_ratio_available)
     stall_ratio = add.stall_ratio;
+
+  if (fuel_flow_available.Complement(add.fuel_flow_available)) {
+      fuel_flow = add.fuel_flow;
+  }
 
   flarm.Complement(add.flarm);
 

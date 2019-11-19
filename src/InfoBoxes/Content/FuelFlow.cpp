@@ -40,6 +40,7 @@ UpdateInfoBoxFuelFlow(InfoBoxData &data)
 
   if (!basic.fuel_flow_available) {
     data.SetInvalid();
+    return;
   }
 
   data.FormatValue(_T("%3.1f"), basic.fuel_flow);
