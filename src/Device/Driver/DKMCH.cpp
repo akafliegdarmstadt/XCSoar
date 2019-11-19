@@ -60,7 +60,12 @@ DKMCHDevice::ParseNMEA(const char *_line, NMEAInfo &info)
 bool
 DKMCHDevice::PFLO(NMEAInputLine &line, NMEAInfo &info)
 {
-  info.fuel_flow = 42 * (CALIBRATION_FACTOR / 3600);
+  double value;
+  if (!line.ReadChecked(value)) {
+    return false;
+  }
+
+  info.fuel_flow = value * (CALIBRATION_FACTOR / 3600);
   info.fuel_flow_available.Update(info.clock);
 
   return true;
