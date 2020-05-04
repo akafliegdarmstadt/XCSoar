@@ -21,6 +21,7 @@ Copyright_License {
 }
 */
 
+#include "InfoBoxes/Content/FuelFlow.hpp"
 #include "InfoBoxes/Content/Other.hpp"
 #include "InfoBoxes/Data.hpp"
 #include "Interface.hpp"

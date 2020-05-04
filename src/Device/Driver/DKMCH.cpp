@@ -35,7 +35,7 @@ Copyright_License {
 constexpr int CALIBRATION_FACTOR = 8600;
 
 class DKMCHDevice : public AbstractDevice {
-  __attribute__((unused)) Port &port;
+  Port &port;
 
 public:
   DKMCHDevice(Port &_port):port(_port) {}
