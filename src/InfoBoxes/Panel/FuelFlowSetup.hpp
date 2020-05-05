@@ -21,20 +21,12 @@ Copyright_License {
 }
 */
 
-#ifndef XCSOAR_INFOBOX_CONTENT_FUELFLOW_HPP
-#define XCSOAR_INFOBOX_CONTENT_FUELFLOW_HPP
+#ifndef XCSOAR_FUELFLOW_SETUP_PANEL_HPP
+#define XCSOAR_FUELFLOW_SETUP_PANEL_HPP
 
-#include "InfoBoxes/Content/Base.hpp"
+class Widget;
 
-extern const InfoBoxPanel fuelflow_infobox_panels[];
-
-class InfoBoxContentFuelFlow : public InfoBoxContent
-{
-  public:
-    virtual const InfoBoxPanel *GetDialogContent() override;
-};
-
-void
-UpdateInfoBoxFuelFlow(InfoBoxData &data);
+Widget *
+LoadFuelFlowSetupPanel(unsigned id);
 
 #endif
