@@ -19,6 +19,8 @@ The NMEA-Sentence looks like the following:
 
 We determined our calibration factor to be 8600 ticks/liter.
 
+The firmware for the sensor can be found [here](https://github.com/akafliegdarmstadt/d39durchflusssensor).
+
 Original README
 ---------------
 
