@@ -35,10 +35,9 @@ Copyright_License {
 constexpr int CALIBRATION_FACTOR = 8600;
 
 class DKMCHDevice : public AbstractDevice {
-  Port &port;
-
 public:
-  DKMCHDevice(Port &_port):port(_port) {}
+  DKMCHDevice(Port &_port) {
+  }
 
   bool ParseNMEA(const char *line, NMEAInfo &info) override;
   static bool PFLO(NMEAInputLine &line, NMEAInfo &info);
@@ -65,7 +64,7 @@ DKMCHDevice::PFLO(NMEAInputLine &line, NMEAInfo &info)
     return false;
   }
 
-  info.fuel_flow = (value/8600) * 3600; // l/h
+  info.fuel_flow = (value/CALIBRATION_FACTOR) * 3600; // l/h
   info.fuel_flow_available.Update(info.clock);
 
   return true;
