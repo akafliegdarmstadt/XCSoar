@@ -26,14 +26,6 @@ Copyright_License {
 
 #include "InfoBoxes/Content/Base.hpp"
 
-extern const InfoBoxPanel fuelflow_infobox_panels[];
-
-class InfoBoxContentFuelFlow : public InfoBoxContent
-{
-  public:
-    virtual const InfoBoxPanel *GetDialogContent() override;
-};
-
 void
 UpdateInfoBoxFuelFlow(InfoBoxData &data);
 

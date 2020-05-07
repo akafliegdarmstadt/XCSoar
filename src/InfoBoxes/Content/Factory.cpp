@@ -1098,7 +1098,6 @@ static constexpr MetaData meta_data[] = {
     N_("FuelFlow"),
     N_("The currently measured fuel flow. If no flow is detected '---'."),
     UpdateInfoBoxFuelFlow,
-    fuelflow_infobox_panels,
   }
 };
 

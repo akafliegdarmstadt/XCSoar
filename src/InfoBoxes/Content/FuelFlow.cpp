@@ -24,8 +24,6 @@ Copyright_License {
 #include "InfoBoxes/Content/FuelFlow.hpp"
 #include "InfoBoxes/Content/Other.hpp"
 #include "InfoBoxes/Data.hpp"
-#include "InfoBoxes/Panel/Panel.hpp"
-#include "InfoBoxes/Panel/FuelFlowSetup.hpp"
 #include "Interface.hpp"
 #include "Renderer/HorizonRenderer.hpp"
 #include "Hardware/Battery.hpp"
@@ -35,16 +33,6 @@ Copyright_License {
 #include "Look/Look.hpp"
 
 #include <tchar.h>
-
-const InfoBoxPanel fuelflow_infobox_panels[] = {
-  { N_("Setup"), LoadFuelFlowSetupPanel },
-  { nullptr, nullptr },
-};
-
-const InfoBoxPanel *
-InfoBoxContentFuelFlow::GetDialogContent() {
-  return fuelflow_infobox_panels;
-}
 
 void
 UpdateInfoBoxFuelFlow(InfoBoxData &data)

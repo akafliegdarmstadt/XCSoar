@@ -400,7 +400,6 @@ XCSOAR_SOURCES := \
 	$(SRC)/InfoBoxes/Panel/AltitudeInfo.cpp \
 	$(SRC)/InfoBoxes/Panel/AltitudeSimulator.cpp \
 	$(SRC)/InfoBoxes/Panel/AltitudeSetup.cpp \
-	$(SRC)/InfoBoxes/Panel/FuelFlowSetup.cpp \
 	$(SRC)/InfoBoxes/Panel/MacCreadyEdit.cpp \
 	$(SRC)/InfoBoxes/Panel/MacCreadySetup.cpp \
 	$(SRC)/InfoBoxes/Panel/WindEdit.cpp \
